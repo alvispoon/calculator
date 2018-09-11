@@ -89,7 +89,7 @@ class HomePageState extends State<HomePage>{
   Widget build(BuildContext context){
     return new Scaffold(
       appBar:new AppBar(
-        title: new Text("Calculator"),
+        title: new Text("Calculator 101"),
       ),
       body: new Container(
         child: Column(
