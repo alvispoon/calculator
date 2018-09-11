@@ -13,43 +13,42 @@ class HomePageState extends State<HomePage>{
   String output = "";
   double num1 = 0.0;
   double num2 = 0.0;
-  String operand = "";
+  String operand = "+";
+  bool showNewNumber = false;
 
   buttonPressed(String buttonText){
-
+    //showNewNumber = true;
     if (buttonText == "C"){
       output = "";
       num1 = 0.0;
       num2 = 0.0;
-      operand = "";
+      operand = "+";
       history = "";
-    }else if (buttonText == "+" || buttonText == "/" ||buttonText == "-" ||buttonText == "*" ){
-
-
-
-
-      num1 = double.parse(output);
-      operand = buttonText;
-      output = "";
-    }else if (buttonText == "="){
+      showNewNumber = false;
+    }else if (buttonText == "+" || buttonText == "/" ||buttonText == "-" ||buttonText == "*" ||buttonText == "="){
       num2 = double.parse(output);
       if(operand == "+"){
-        output = (num1 + num2).toStringAsFixed(0);
+        num1 = (num1 + num2);
       }
       if(operand == "-"){
-        output = (num1 - num2).toStringAsFixed(0);
+        num1 = (num1 - num2);
       }
-      if(operand == "X"){
-        output = (num1 * num2).toStringAsFixed(0);
+      if(operand == "*"){
+        num1 = (num1 * num2);
       }
       if(operand == "/"){
-        output = (num1 / num2).toStringAsFixed(0);
+        num1 = (num1 / num2);
       }
-      num1 = 0.0;
       num2 = 0.0;
-      operand = "";
+      operand = buttonText;
+      output = num1.toStringAsFixed(0);
+      showNewNumber = true;
     }
-    else {
+    else if (showNewNumber){
+      output = buttonText;
+      showNewNumber = false;
+    }
+    else{
       output = output + buttonText;
     }
     setState(() {
@@ -106,6 +105,7 @@ class HomePageState extends State<HomePage>{
               child: new Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   Text(
                     "$history",
@@ -113,6 +113,7 @@ class HomePageState extends State<HomePage>{
                         fontSize: 35.0,
                         color: Colors.grey
                     ),
+                    textAlign: TextAlign.right,
                   ),
                   Text(
                     "$ansStr",
@@ -120,6 +121,7 @@ class HomePageState extends State<HomePage>{
                         fontSize: 50.0,
                         color: Colors.blue
                     ),
+                      textAlign: TextAlign.right,
                   )
                 ],
               )
@@ -167,16 +169,7 @@ class HomePageState extends State<HomePage>{
     );
 
   }
-  Widget _button(String number, Function() f){
-    return MaterialButton(
-        height: 100.0,
-        child: Text(number,
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0)),
-        textColor: Colors.black,
-        color: Colors.grey[100],
-        onPressed: f,
-    );
-  }
+
 
 
 }
